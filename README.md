@@ -4,7 +4,8 @@
 The Mesh Anonymity Protocol (MAP) defines an identity-free, decentralized and ephemeral mesh communication system. Its goal is to create a fluctuating network that only consists of currently present participants, without any long-term identities, traceability or central instances. MAP targets environments where classical, server-based or infrastructure-backed networks (Internet, cellular networks, managed Wi-Fi) are not suitable or not desired. It enables anonymous exchange of files and messages between arbitrary devices within the physical range of local radio technologies.
 
 ## Goals The main goals of MAP are: 
-• Complete absence of persistent identifiers. 
+• Complete absence of persistent identifiers.
+
 • Strict separation of content and origin (no mapping of files to devices or persons). 
 • Use of existing short-range radio technologies (e.g. WiIFi Direct, WiIFi Aware, Bluetooth Low Energy). 
 • Ephemeral behavior: the network exists only through currently present devices. 

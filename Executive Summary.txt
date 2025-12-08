@@ -1,0 +1,17 @@
+Executive Summary
+
+The Mesh Anonymity Protocol (MAP) is a fully decentralized, identity-free, and ephemeral network protocol that works without servers, fixed infrastructure, or permanently linkable identifiers. MAP uses only the physical radio transport means currently available to a device (e.g., Wi-Fi Direct, Wi-Fi Aware, Bluetooth Low Energy) and forms a spontaneous, fluctuating mesh network whose existence is determined solely by the devices currently present.
+
+MAP does not transmit any metadata that could be used to identify devices, users, or their relationships. Instead, the protocol is based on anonymous presence signals and a strictly content-oriented architecture: content is broken down into small, uniformly structured chunks and distributed across the mesh without revealing its origin or history. The network itself does not store anything; only devices can save content locally. This locally stored content can be carried to any other mesh context via the Portable Content Layer (PCL) and reintroduced there anonymously.
+
+MAP provides the Ephemeral Identity Layer (EIL) for optional messenger or interaction functions. It generates temporary pseudo-identifiers (EUI) that can be revoked at any time and are only valid within a current mesh context. Linking across time, space, or different meshes is not possible. Use of this identity system is entirely voluntary.
+
+MAP thus creates a network model that is characterized by the following features:
+- Absolute decentralization: no server, no backbone, no routing tables.
+- Maximum anonymity: no reusable identities, no metadata.
+- Ephemerality: meshes only exist in the moment of presence.
+- Content orientation: content is the only stable unit—not the devices.
+- Transport agnosticism: MAP works over any available short-range radio technology.
+- Censorship and surveillance resistance: no node information, no hierarchy, no control points.
+
+MAP thus enables a new class of local networks: spontaneous, anonymous, resilient, and driven exclusively by their users.

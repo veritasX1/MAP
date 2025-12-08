@@ -40,7 +40,7 @@ MAP is layered and separates transport, mesh presence, content distribution and 
 - Portable Content Layer (PCL – PCE/RIP)
 - Cosmetic presentation layer (e.g. MNT) 
 
-## Transport Layer 
+### Transport Layer 
 The transport layer comprises all physical and logical mechanisms used to carry MAP frames. MAP itself is transport agnostic and only defines requirements on how broadcasts and short-range links are used.
 Example transports: 
 - WiIFi Aware / WiIFi Direct
@@ -48,10 +48,10 @@ Example transports:
 - Bluetooth Low Energy (Advertising + GATT)
 - Other local radio technologies with broadcast or multicast capabilities Implementations SHOULD use multiple transports in parallel, where available, to increase coverage and robustness of the mesh.
 
-## Protocol Frame (MAP Frame Format) 
+### Protocol Frame (MAP Frame Format) 
 All MAP messages use a compact, common frame format. Headers are kept as small as possible to minimize metadata.
 
-## Generic MAP Frame 
+### Generic MAP Frame 
 The generic MAP frame has the following layout (byte-oriented, network byte order):
 - Magic (2 bytes): Protocol identifier, ASCII “MA” (0x4D41).
 - Version (1 byte): Protocol version, starting at 0x01.
@@ -62,7 +62,7 @@ The generic MAP frame has the following layout (byte-oriented, network byte orde
 - Payload (0–65535 bytes): Message body according to type.
 - CRC16 (2 bytes): Checksum over header + payload.
 
-## Flags Field 
+### Flags Field 
 The Flags field is an 8-bit value with the following proposed meaning: 
 - Bit 0: File sharing active
 - Bit 1:
@@ -70,10 +70,10 @@ The Flags field is an 8-bit value with the following proposed meaning:
   - Bit 2: EUI present 
   - Bit 3–7: Reserved (MUST be set to 0 until specified).
 
-## Mesh Presence Layer (MPL) 
+### Mesh Presence Layer (MPL) 
 The Mesh Presence Layer makes the existence of a node within a mesh visible without disclosing any identity. MPL uses periodic, anonymous Presence Announcement frames.
 
-## Presence Announcement (Type = 0x01) 
+### Presence Announcement (Type = 0x01) 
 Presence messages are sent periodically (e.g. every 2–5 seconds) over all available transports. They inform other nodes that a MAP participant is present and which services it supports in principle.
 Payload structure: 
 - FeatureBits (1 byte): Offered features (file, chat, etc.).
@@ -82,33 +82,33 @@ Payload structure:
   - Optional: MNT-Length (1 byte). 
   - Optional: MNT-String (0–255 bytes, UTFI8).
 
-## Ephemeral Network Tag (ENT) 
+### Ephemeral Network Tag (ENT) 
 ENT is a 4-byte value that loosely characterizes the mesh group. ENT is not intended to identify individual nodes.
 Example generation (non-normative): ENT = 32-bit truncation of SHAI256( random_256bit || local_epoch_byte ) Implementations SHOULD regenerate ENT regularly (e.g. every minute) to make tracking over time harder.
 
-## Content Exchange Layer (CEL) 
+### Content Exchange Layer (CEL) 
 The Content Exchange Layer is responsible for identity-free content exchange. Content is split into fixed-size chunks and distributed independently.
 
-## Content and ContentHash 
+#### Content and ContentHash 
 Content is an anonymous byte sequence without filename, path or metadata. Each content object is identified by a ContentHash.
 Recommended definition: ContentHash = 16-byte truncation of SHAI256( full_content ) 
 
-## Chunking 
+#### Chunking 
 Content is split into fixed-size chunks (e.g. 2048 bytes). The final chunk may be shorter. Chunks are uniquely identified by (ContentHash, ChunkIndex).
 
-### Content Availability (Type = 0x02) 
+#### Content Availability (Type = 0x02) 
 Content Availability messages signal which chunks of a specific content are held by a node.
 Payload structure: 
 - ContentHash (16 bytes)
 - ChunkBitmap (variable length): Bit mask where bit i indicates availability of chunk i.
 
-### Chunk Request (Type = 0x03) 
+#### Chunk Request (Type = 0x03) 
 Chunk Request frames are used to request a specific chunk of a content object from any node.
 Payload structure: 
 - ContentHash (16 bytes)
 - ChunkIndex (2 bytes) 
 
-### Chunk Transfer (Type = 0x04) 
+#### Chunk Transfer (Type = 0x04) 
 Chunk Transfer frames carry individual chunks.
 Payload structure: 
 - ContentHash (16 bytes)
@@ -116,10 +116,10 @@ Payload structure:
 - TotalChunks (2 bytes)
 - ChunkData (0–2048 bytes)
 
-## Ephemeral Identity Layer (EIL) 
+### Ephemeral Identity Layer (EIL) 
 The Ephemeral Identity Layer defines an optional concept that allows users to be temporarily addressable inside a mesh without creating any persistent identity.
 
-## Ephemeral User Identifier (EUI) 
+### Ephemeral User Identifier (EUI) 
 An EUI is a pseudo-random identifier that only has meaning within a mesh context (as defined by ENT).
 Example generation (non-normative): EUI = 16-byte truncation of SHAI256( random_256bit || ENT ) Properties: 
 - EUI is not globally unique.
@@ -127,22 +127,22 @@ Example generation (non-normative): EUI = 16-byte truncation of SHAI256( random_
 - On mesh changes (different ENT) the EUI SHOULD be regenerated.
 - The user may completely disable the EUI and remain anonymous.
 
-### Identity Exchange (Type = 0x10) 
+#### Identity Exchange (Type = 0x10) 
 Identity Exchange messages can be used to announce EUI and capabilities (e.g. ready to receive chat messages).
 Payload structure: 
 - EUI (16 bytes)
 - Capabilities (1 byte, e.g. chatIcapable, broadcastIonly).
 
-## Portable Content Layer (PCL) 
+### Portable Content Layer (PCL) 
 PCE and RIP The Portable Content Layer describes how content can be stored locally by users and later reintroduced into other meshes without violating anonymity or protocol principles.
 
-## Portable Content Extraction (PCE) 
+### Portable Content Extraction (PCE) 
 PCE allows a node to persist received content locally. Only the raw content and its ContentHash are stored. Mesh-specific information (ENT, EUI, MNT, timestamps, origin devices) is not stored.
 Recommended minimal storage format: 
 - ContentHash (16 bytes)
 - RawData (full reconstructed content) 
 
-## ReIInject Procedure (RIP) 
+### ReIInject Procedure (RIP) 
 RIP defines how locally stored content is re-introduced into a mesh:
 Pseudocode: 
 1. Read file from local storage. 
@@ -156,7 +156,7 @@ Pseudocode:
 For human-friendly display, a mesh may be assigned a random cosmetic name. This name is non-binding, non-unique and only serves user orientation.
 One possible approach is to combine a random adjective with a mythical creature, e.g. “Sparkling Tatzelwurm” or “Nebulous Leviathan”.
 
-## MNT Generation 
+### MNT Generation 
 1. Choose an adjective from a predefined list. 
 2. Choose a mythical creature from a predefined list. 
 3. Concatenate into a string, e.g. “ ”.
@@ -165,19 +165,19 @@ MNT may optionally be included in the Presence Announcement. It has no protocol-
 ## Security and Privacy Considerations 
 MAP is designed to systematically remove potential sources of identifiability. Nevertheless, implementers must take care not to create additional traces outside the protocol.
 
-## Metadata Reduction Implementations MUST ensure that: 
+### Metadata Reduction Implementations MUST ensure that: 
 - no MAC addresses, hostnames or IP addresses are transported on the application layer;
 - content is stripped of metadata (EXIF, XMP, office metadata etc.) before transmission;
 - no permanent protocol or debug logs with content or peer information are stored.
 
-## Traffic Analysis Resistance 
+### Traffic Analysis Resistance 
 To mitigate traffic analysis, implementations SHOULD: 
 - use constant packet sizes where possible;
 - introduce jittered send intervals;
 - avoid explicit, bidirectional sessions with clear start/stop markers;
 - distribute chunk transfers across multiple transports if available.
 
-## Anonymity Level 
+### Anonymity Level 
 The target anonymity level is such that even if people physically see each other exchanging data, the protocol and network traces alone do not allow reliable attribution of participants, roles or authorship.
 
 ## Implementation Guidelines 

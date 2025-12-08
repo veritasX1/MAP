@@ -6,7 +6,7 @@ The Mesh Anonymity Protocol (MAP) defines an identity-free, decentralized and ep
 ## Goals The main goals of MAP are: 
 • Complete absence of persistent identifiers.
 
-• Strict separation of content and origin (no mapping of files to devices or persons). 
+• Strict separation of content and origin (no mapping of files to devices or persons).
 • Use of existing short-range radio technologies (e.g. WiIFi Direct, WiIFi Aware, Bluetooth Low Energy). 
 • Ephemeral behavior: the network exists only through currently present devices. 
 • Minimal and controlled protocol headers to avoid metadata. 
@@ -67,9 +67,9 @@ The generic MAP frame has the following layout (byte-oriented, network byte orde
 The Flags field is an 8-bit value with the following proposed meaning: 
 • Bit 0: File sharing active 
 • Bit 1:
-Messaging active 
-• Bit 2: EUI present 
-• Bit 3–7: Reserved (MUST be set to 0 until specified).
+  Messaging active 
+  • Bit 2: EUI present 
+  • Bit 3–7: Reserved (MUST be set to 0 until specified).
 
 ## Mesh Presence Layer (MPL) 
 The Mesh Presence Layer makes the existence of a node within a mesh visible without disclosing any identity. MPL uses periodic, anonymous Presence Announcement frames.
@@ -79,9 +79,9 @@ Presence messages are sent periodically (e.g. every 2–5 seconds) over all avai
 Payload structure: 
 • FeatureBits (1 byte): Offered features (file, chat, etc.). 
 • ApproxStorage (1 byte):
-Rough indication of available temporary storage capacity (0–255, free scale). 
-• Optional: MNT-Length (1 byte). 
-• Optional: MNT-String (0–255 bytes, UTFI8).
+  Rough indication of available temporary storage capacity (0–255, free scale). 
+  • Optional: MNT-Length (1 byte). 
+  • Optional: MNT-String (0–255 bytes, UTFI8).
 
 ## Ephemeral Network Tag (ENT) 
 ENT is a 4-byte value that loosely characterizes the mesh group. ENT is not intended to identify individual nodes.
@@ -188,7 +188,7 @@ The following guidelines are intended to help developers create MAP-compliant im
 • ENT MUST be regenerated regularly (e.g. every 60 seconds). 
 • Headers and payloads MUST be kept as small as practical. 
 • Content MUST be sanitized before transmission. 
-• EUI MUST only be used if explicitly enabled by the user. 
+• EUI MUST only be used if explicitly enabled by the user.
 • No persistent communication logs MAY be kept.
 
 ### Recommended Behavior (SHOULD) 
